@@ -1,6 +1,5 @@
 package thederpgamer.astralspirits.entity.spirit;
 
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.init.Biomes;
