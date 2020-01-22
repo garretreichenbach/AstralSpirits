@@ -1,22 +1,43 @@
 package thederpgamer.astralspirits.entity.spirit;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.item.Item;
+import net.minecraft.util.DamageSource;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 public class AstralSpirit extends EntityCreature {
 
-    private float width;
-    private float height;
-    private double maxHealth;
-    private double armor;
-    private double attackDamage;
+    private float width; //Base Reference:0.7F
+    private float height; //Base Reference:2.0F
+    private double maxHealth; //Base Reference:70.0D
+    private double armor; //Base Reference:5.0D
+    private double attackDamage; //Base Reference:
     private double movementSpeed;
     private double followRange;
+    private int experienceValue;
+    private boolean isImmuneToFire = false;
+    private BossInfoServer bossInfo = null;
+    private String displayName;
+    private int rarity;
+    private Biome[] spawnBiomes;
+
+    private ElementType elementType;
+
 
     public AstralSpirit(World worldIn) {
         super(worldIn);
         setSize(width, height);
+    }
+
+    public void init(FMLInitializationEvent event) {
+        EntityRegistry.addSpawn(this.getClass(), rarity, 1, 1, EnumCreatureType.CREATURE, spawnBiomes);
     }
 
     @Override
@@ -27,6 +48,104 @@ public class AstralSpirit extends EntityCreature {
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(armor);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(maxHealth);
+    }
+
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount) {
+        //Prevents all Spirits from taking fall damage
+        if (source == DamageSource.FALL)
+            return false;
+        return super.attackEntityFrom(source, amount);
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+    }
+
+    @Override
+    public void onDeath(DamageSource source) {
+        super.onDeath(source);
+        int x = (int) this.posX;
+        int y = (int) this.posY;
+        int z = (int) this.posZ;
+        Entity entity = this;
+    }
+
+    @Override
+    protected Item getDropItem() {
+        return null;
+    }
+
+    /* Sounds not implemented yet
+    @Override
+    public net.minecraft.util.SoundEvent getAmbientSound() {
+        return (net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("sounds/spirit/ambientSound"));
+    }
+
+    @Override
+    public net.minecraft.util.SoundEvent getHurtSound(DamageSource ds) {
+        return (net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("sounds/spirit/hurtSound"));
+    }
+
+    @Override
+    public net.minecraft.util.SoundEvent getDeathSound() {
+        return (net.minecraft.util.SoundEvent) net.minecraft.util.SoundEvent.REGISTRY.getObject(new ResourceLocation("sounds/spirit/deathSound"));
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 1.0F;
+    }
+    */
+
+    public void setSpawnBiomes(Biome[] biomes) {
+        this.spawnBiomes = biomes;
+    }
+
+    public Biome[] getSpawnBiomes() {
+        return spawnBiomes;
+    }
+
+    public void setRarity(int rarity) {
+        this.rarity = rarity;
+    }
+
+    public int getRarity() {
+        return rarity;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setBossInfo(BossInfoServer bossInfo) {
+        this.bossInfo = bossInfo;
+    }
+
+    public int getExperienceValue() {
+        return experienceValue;
+    }
+
+    public void setExperienceValue(int experienceValue) {
+        this.experienceValue = experienceValue;
+    }
+
+    public void setImmuneToFire(boolean immuneToFire) {
+        isImmuneToFire = immuneToFire;
+    }
+
+    public ElementType getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(ElementType elementType) {
+        this.elementType = elementType;
+    }
+
+    public BossInfoServer getBossInfo() {
+        return bossInfo;
     }
 
     public float getWidth() {
