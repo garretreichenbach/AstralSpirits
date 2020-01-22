@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
+import thederpgamer.astralspirits.entity.spirit.ability.SpiritAbility;
 
 public class AstralSpirit extends EntityCreature {
 
@@ -23,12 +24,14 @@ public class AstralSpirit extends EntityCreature {
     private double followRange;
     private int experienceValue;
     private boolean isImmuneToFire = false;
+    private boolean isImmuneToExplosions = false;
     private BossInfoServer bossInfo = null;
     private String displayName;
     private int rarity;
     private Biome[] spawnBiomes;
 
     private ElementType elementType;
+    private SpiritAbility[] abilities = new SpiritAbility[4];
 
 
     public AstralSpirit(World worldIn) {
@@ -133,7 +136,11 @@ public class AstralSpirit extends EntityCreature {
     }
 
     public void setImmuneToFire(boolean immuneToFire) {
-        isImmuneToFire = immuneToFire;
+        this.isImmuneToFire = immuneToFire;
+    }
+
+    public void setImmuneToExplosions(boolean immuneToExplosions) {
+        this.isImmuneToExplosions = immuneToExplosions;
     }
 
     public ElementType getElementType() {
