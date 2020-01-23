@@ -29,6 +29,7 @@ public class AstralSpirit extends EntityCreature {
     private String displayName;
     private int rarity;
     private Biome[] spawnBiomes;
+    private Class<? extends Entity> entity = this.getClass();
 
     private ElementType elementType;
     private SpiritAbility[] abilities = new SpiritAbility[4];
@@ -102,6 +103,10 @@ public class AstralSpirit extends EntityCreature {
         return 1.0F;
     }
     */
+
+    public Class<? extends Entity> getEntity() {
+        return entity;
+    }
 
     public void setSpawnBiomes(Biome[] biomes) {
         this.spawnBiomes = biomes;
