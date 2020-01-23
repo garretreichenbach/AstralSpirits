@@ -11,7 +11,7 @@ public class SpiritAbility {
     private Double cooldown;
     private ElementType elementType;
 
-    public void activateAbility(AstralSpirit spirit, Entity[] target) {
+    public void activateAbility(AstralSpirit spirit, Entity target) {
     }
 
     public void registerAbility(SpiritAbility ability) {
