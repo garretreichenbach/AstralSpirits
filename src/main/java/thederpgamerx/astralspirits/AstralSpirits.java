@@ -30,6 +30,7 @@ public class AstralSpirits {
 		modEventBus.addListener(this::commonSetup);
 		BlockRegistry.initialize(modEventBus);
 		ItemRegistry.initialize(modEventBus);
+		EntityRegistry.initialize(modEventBus);
 
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
